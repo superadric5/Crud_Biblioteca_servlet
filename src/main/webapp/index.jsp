@@ -11,5 +11,17 @@
     <input type="submit" value="Menu Libros">
 </form>
 
+<form action="MenuUsuario" method="post">
+    <input type="submit" value="Menu Usuario">
+</form>
+
+<form action="MenuEjemplar" method="post">
+    <input type="submit" value="Menu Ejemplar">
+</form>
+
+<form action="MenuPrestamo" method="post">
+    <input type="submit" value="Menu Prestamo">
+</form>
+
 </body>
 </html>

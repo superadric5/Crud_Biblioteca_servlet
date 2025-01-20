@@ -22,16 +22,13 @@ public class Ejemplar {
     @JsonBackReference
     private Libro isbn;
 
-    @ColumnDefault("'Disponible'")
-    @Lob
     @Column(name = "estado")
     private String estado;
 
     public Ejemplar() {
     }
 
-    public Ejemplar(Integer id, Libro isbn, String estado) {
-        this.id = id;
+    public Ejemplar(Libro isbn, String estado) {
         this.isbn = isbn;
         this.estado = estado;
     }

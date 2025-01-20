@@ -17,7 +17,7 @@ public class PeticionesLibros  extends HttpServlet {
     private Scanner scanner;
     private DAOGenerico<Libro, String> daoLibro;
     private ControladorLibros controladorLibros;
-    private ObjectMapper conversorJson = new ObjectMapper();
+    private ObjectMapper conversorJson;
 
     private String isbn;
     private String titulo;
@@ -27,18 +27,19 @@ public class PeticionesLibros  extends HttpServlet {
     public void init() {
         controladorLibros = new ControladorLibros();
         daoLibro = new DAOGenerico<>(Libro.class, String.class);
-        Scanner scanner = new Scanner(System.in);
+        scanner = new Scanner(System.in);
+        conversorJson = new ObjectMapper();
     }
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType("application/json");
         PrintWriter out = response.getWriter();
 
-        String isbn = request.getParameter("isbn");
-        String titulo = request.getParameter("titulo");
-        String autor = request.getParameter("autor");
+        isbn = request.getParameter("isbn");
+        titulo = request.getParameter("titulo");
+        autor = request.getParameter("autor");
 
-        String accion = request.getParameter("Accion");
+        accion = request.getParameter("Accion");
 
         if (accion.equals("Crear")){
             Libro libro = creacionLibro(isbn, titulo, autor);
@@ -56,9 +57,10 @@ public class PeticionesLibros  extends HttpServlet {
         else if (accion.equals("Actualizar")){
             Libro libro = modificarLibro(isbn);
             if (controladorLibros.comprobarLibroExiste(libro)){
-                Libro libro2 = new Libro(isbn, titulo, autor);
-                daoLibro.update(libro2);
-                String jackson = conversorJson.writeValueAsString(libro2);
+                libro.setTitulo(titulo);
+                libro.setAutor(autor);
+                daoLibro.update(libro);
+                String jackson = conversorJson.writeValueAsString(libro);
                 out.println(jackson);
             }
             else {
@@ -82,11 +84,6 @@ public class PeticionesLibros  extends HttpServlet {
     }
 
     public void destroy() {
-    }
-
-    public PeticionesLibros() {
-        scanner = new Scanner(System.in);
-        daoLibro = new DAOGenerico<>(Libro.class, String.class);
     }
 
     public Libro creacionLibro(String isbn, String titulo, String autor) {

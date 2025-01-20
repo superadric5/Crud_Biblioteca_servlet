@@ -45,14 +45,12 @@ public class Usuario {
     public Usuario() {
     }
 
-    public Usuario(Integer id, String dni, String nombre, String email, String password, String tipo, LocalDate penalizacionHasta) {
-        this.id = id;
+    public Usuario(String dni, String nombre, String email, String password, String tipo) {
         this.dni = dni;
         this.nombre = nombre;
         this.email = email;
         this.password = password;
         this.tipo = tipo;
-        this.penalizacionHasta = penalizacionHasta;
     }
 
     public Integer getId() {

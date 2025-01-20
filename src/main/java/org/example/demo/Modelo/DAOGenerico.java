@@ -28,6 +28,13 @@ public class DAOGenerico<T, ID> {
         return em.find(clase, id);
     }
 
+    public T getByDni(String dni){
+        String sql = "Select u From "+ clase.getName()+" u Where u.dni = :dni";
+        Query query = em.createQuery(sql);
+        query.setParameter("dni", dni);
+        return (T)query.getSingleResult();
+    }
+
     //SELECT *
     public List<T> getAll(){
         return em.createQuery("SELECT c from "+ clase.getName()+" c").getResultList();
@@ -50,26 +57,26 @@ public class DAOGenerico<T, ID> {
     }
 
     //Select p de los prestamos con un id de usuario especificoç
-//    public List<Prestamo> getPrestamosDeXUsuario(Usuario usuario){
-//        String sql = "Select p From "+ clase.getName()+" p Where p.usuario = :usuario";
-//        Query query = em.createQuery(sql);
-//        query.setParameter("usuario", usuario);
-//        return query.getResultList();
-//    }
+    public List<Prestamo> getPrestamosDeXUsuario(Usuario usuario){
+        String sql = "Select p From "+ clase.getName()+" p Where p.usuario = :usuario";
+        Query query = em.createQuery(sql);
+        query.setParameter("usuario", usuario);
+        return query.getResultList();
+    }
 
     //Select p de un prestamo con un ususario y un ejemplar especifico
-//    public T getPrestamoDeXUsuarioDeXEjemplar(Usuario usuario, Ejemplar ejemplar){
-//        String sql = "Select p From "+ clase.getName()+" p Where p.usuario = :usuario AND p.ejemplar = :ejemplar";
-//        Query query = em.createQuery(sql);
-//        query.setParameter("usuario", usuario);
-//        query.setParameter("ejemplar", ejemplar);
-//        return (T)query.getSingleResult();
-//    }
+    public T getPrestamoDeXUsuarioDeXEjemplar(Usuario usuario, Ejemplar ejemplar){
+        String sql = "Select p From "+ clase.getName()+" p Where p.usuario = :usuario AND p.ejemplar = :ejemplar";
+        Query query = em.createQuery(sql);
+        query.setParameter("usuario", usuario);
+        query.setParameter("ejemplar", ejemplar);
+        return (T)query.getSingleResult();
+    }
 
     //UPDATE
     public T update(T objeto){
         tx.begin();
-        objeto = em.merge(objeto);
+        em.merge(objeto);
         tx.commit();
         return objeto;
     }
